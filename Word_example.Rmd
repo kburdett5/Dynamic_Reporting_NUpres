@@ -1,0 +1,86 @@
+---
+title: "Word Example"
+author: "Megan McCabe"
+date: "`r format(Sys.Date(),'%d %b %Y')`"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+library(broom)       # used for tidy()
+library(tidyverse)
+library(tableone)
+library(survival)    # veteran data
+library(knitr)
+
+stdt <- date()
+```
+
+# Linear Regression Model
+```{r}
+fit <- lm(dist ~ speed, data = cars)
+fit_res <- tidy(fit); fit_res
+```
+
+Easily pull out results with tidy() function. Then we can use inline code like `format.pval(fit_res$p.value[fit_res$term == "speed"], digit = 4)` to show the p-value  `r format.pval(fit_res$p.value[fit_res$term == "speed"], digit = 4)` corresponding to speed. \
+
+
+
+
+
+
+# Baseline Patient Demographic and Clinical Characteristics
+```{r echo=FALSE, include = FALSE}
+veteran2 <- veteran %>%
+  dplyr::rename("Treatment" = trt, "Cell Type" = celltype, "Karnofsky Performance Score" = karno,
+                "Age in Years"=age, "Prior Therapy" = prior) %>%
+  dplyr::mutate(`Prior Therapy` = ifelse(`Prior Therapy` == 0, "No",
+                                         ifelse(`Prior Therapy` == 10, "Yes", `Prior Therapy`)))
+
+tabout <- print(CreateTableOne(vars = c("Cell Type", "Karnofsky Performance Score", "Age in Years"),
+               data = veteran2, strata = "Prior Therapy", test = FALSE), showAllLevels = TRUE)
+```
+
+```{r echo=FALSE}
+kable(tabout, caption = "Demographics by Prior Therapy") 
+```
+
+
+## Specifying Reported Summary Statistic
+
+Depending on the distribution of a continuous variable, you may want to report a different summary statistic in your Table 1. For instance, we can look at the distribution of the age variable.
+
+```{r echo=FALSE, fig.width=4.5, fig.height=3.5}
+
+ggplot(veteran, aes(age)) + 
+  geom_histogram(bins = 20) +
+  theme_bw() +
+  ggtitle("Distribution of Age (years)") +
+  xlab("Age (years)") +
+  ylab("Count")
+
+```
+
+Based on the histogram, we may want to report the median (IQR) instead of the mean (sd) as reported earlier. Below we will recreate the table with that change.
+ 
+```{r echo=FALSE, include = FALSE}
+
+tabout2 <- print(CreateTableOne(vars = c("Cell Type", "Karnofsky Performance Score", "Age in Years"),
+               data = veteran2, strata = "Prior Therapy", test = FALSE), showAllLevels = TRUE, nonnormal = c("Age in Years"))
+```
+
+```{r echo=FALSE}
+kable(tabout2, caption = "Demographics by Prior Therapy") 
+```
+
+
+
+# Session Information
+```{r echo=FALSE}
+sessionInfo()
+print(paste("Start Time",stdt))
+print(paste("End Time  ",date()))
+```
+
+
+
+
