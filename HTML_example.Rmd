@@ -1,0 +1,55 @@
+---
+title: "HTML Example: 3D Plots"
+author: "Kirsten Bell Burdett"
+date: "February 18, 2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Load Libraries
+
+```{r message = FALSE, warning=FALSE}
+library(plotly)    # for 3D plotting
+```
+
+
+## 3D Plot
+
+```{r}
+plot_ly(iris, x=~Petal.Width, y=~Sepal.Length, z=~Sepal.Width) %>%
+  add_markers() 
+```
+
+
+## Update Labels and Title
+
+```{r}
+plot_ly(iris, x=~Petal.Width, y=~Sepal.Length, z=~Sepal.Width) %>%
+  add_markers() %>%
+  layout(
+    title = "3D Scatter Plot: Iris Data",
+    scene = list(xaxis = list(title = "Petal Width"),
+                 yaxis = list(title = "Sepal Length"),
+                 zaxis = list(title = "Sepal Width"))
+  )
+```
+
+
+
+## Color by Species
+
+```{r}
+plot_ly(iris, x=~Petal.Width, y=~Sepal.Length, z=~Sepal.Width,
+        color = ~Species) %>%
+  add_markers() %>%
+  layout(
+    title = "3D Scatter Plot by Species: Iris Data",
+    scene = list(xaxis = list(title = "Petal Width"),
+                 yaxis = list(title = "Sepal Length"),
+                 zaxis = list(title = "Sepal Width"))
+  )
+```
+
