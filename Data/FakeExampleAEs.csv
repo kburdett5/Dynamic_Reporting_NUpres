@@ -1,0 +1,201 @@
+subjid,Event,Category,Grade,anyRAE,anySAE,total_subj
+1,Platelet count decreased,Investigations,1,No,No,137
+1,Hypokalemia,Metabolism and nutrition disorders,1,No,No,137
+1,Lymphocyte count decreased,Investigations,1,No,No,137
+2,Skin infection,Infections and infestations,1,No,No,137
+3,Hypokalemia,Metabolism and nutrition disorders,1,No,No,137
+4,Ataxia,Nervous system disorders,2,No,No,137
+5,Anemia,Blood and lymphatic system disorders,2,No,No,137
+6,Lymphocyte count decreased,Investigations,2,No,No,137
+7,Abdominal pain,Gastrointestinal disorders,2,No,No,137
+8,Lymphocyte count decreased,Investigations,2,No,No,137
+9,Alanine aminotransferase increased,Investigations,1,No,No,137
+10,Lymphocyte count decreased,Investigations,1,No,No,137
+11,Nausea,Gastrointestinal disorders,1,No,No,137
+12,Hypocalcemia,Metabolism and nutrition disorders,1,No,No,137
+13,Abdominal pain,Gastrointestinal disorders,3,No,Yes,137
+14,Nervous system disorders,Nervous system disorders,1,No,No,137
+15,Aspartate aminotransferase increased,Investigations,1,No,No,137
+16,Anemia,Blood and lymphatic system disorders,1,No,No,137
+17,Anemia,Blood and lymphatic system disorders,1,No,No,137
+18,Constipation,Gastrointestinal disorders,1,No,No,137
+19,Hypertension,Vascular disorders,2,No,No,137
+20,Platelet count decreased,Investigations,1,No,No,137
+21,Hyperglycemia,Metabolism and nutrition disorders,1,No,No,137
+22,Fever,General disorders and administration site conditions,1,No,No,137
+23,Hypokalemia,Metabolism and nutrition disorders,3,No,No,137
+24,Lymphocyte count decreased,Investigations,1,No,No,137
+25,Dry eye,Eye disorders,1,No,No,137
+26,Vomiting,Gastrointestinal disorders,1,No,No,137
+27,Oculomotor nerve disorder,Nervous system disorders,2,No,No,137
+28,Fatigue,General disorders and administration site conditions,1,No,No,137
+29,White blood cell decreased,Investigations,3,No,No,137
+30,Lymphocyte count decreased,Investigations,1,No,No,137
+31,White blood cell decreased,Investigations,2,No,No,137
+32,Stomach pain,Gastrointestinal disorders,1,No,No,137
+33,Hypoalbuminemia,Metabolism and nutrition disorders,2,No,No,137
+34,Dyspnea,"Respiratory, thoracic and mediastinal disorders",3,No,Yes,137
+35,Hyperglycemia,Metabolism and nutrition disorders,1,No,No,137
+36,Headache,Nervous system disorders,1,No,No,137
+37,Alopecia,Skin and subcutaneous tissue disorders,2,No,No,137
+38,Hyponatremia,Metabolism and nutrition disorders,1,No,No,137
+39,Nausea,Gastrointestinal disorders,1,No,No,137
+40,Fatigue,General disorders and administration site conditions,1,No,No,137
+41,Dizziness,Nervous system disorders,1,No,No,137
+41,Hyponatremia,Metabolism and nutrition disorders,1,No,No,137
+41,Anemia,Blood and lymphatic system disorders,2,No,No,137
+41,Headache,Nervous system disorders,1,Yes,No,137
+41,Hypokalemia,Metabolism and nutrition disorders,1,No,No,137
+41,Hypoalbuminemia,Metabolism and nutrition disorders,1,No,No,137
+41,Memory impairment,Nervous system disorders,2,No,No,137
+41,Nervous system disorders,Nervous system disorders,1,No,No,137
+42,Alanine aminotransferase increased,Investigations,1,No,No,137
+42,Hypocalcemia,Metabolism and nutrition disorders,1,No,No,137
+42,Hypokalemia,Metabolism and nutrition disorders,1,No,No,137
+43,Headache,Nervous system disorders,1,No,No,137
+44,Fall,"Injury, poisoning and procedural complications",1,No,No,137
+45,Nasal congestion,"Respiratory, thoracic and mediastinal disorders",2,No,No,137
+46,Fatigue,General disorders and administration site conditions,2,Yes,No,137
+47,Non-cardiac chest pain,General disorders and administration site conditions,1,Yes,No,137
+48,White blood cell decreased,Investigations,2,No,No,137
+49,Memory impairment,Nervous system disorders,2,Yes,No,137
+50,Fatigue,General disorders and administration site conditions,2,Yes,No,137
+51,Hypokalemia,Metabolism and nutrition disorders,1,No,No,137
+52,Nausea,Gastrointestinal disorders,1,No,No,137
+53,Hypertension,Vascular disorders,1,No,No,137
+54,Anemia,Blood and lymphatic system disorders,1,No,No,137
+55,Malaise,General disorders and administration site conditions,1,No,No,137
+56,Platelet count decreased,Investigations,1,No,No,137
+57,Aspartate aminotransferase increased,Investigations,1,No,No,137
+58,Diarrhea,Gastrointestinal disorders,1,No,No,137
+59,Hypocalcemia,Metabolism and nutrition disorders,1,No,No,137
+60,Ataxia,Nervous system disorders,1,No,No,137
+61,Lymphocyte count decreased,Investigations,1,No,No,137
+62,Hypoalbuminemia,Metabolism and nutrition disorders,1,No,No,137
+63,Lymphocyte count decreased,Investigations,1,No,No,137
+64,White blood cell decreased,Investigations,1,No,No,137
+65,White blood cell decreased,Investigations,2,No,No,137
+66,Arthritis,Musculoskeletal and connective tissue disorders,1,No,No,137
+67,Anemia,Blood and lymphatic system disorders,2,No,No,137
+68,Hyperglycemia,Metabolism and nutrition disorders,1,No,No,137
+69,Constipation,Gastrointestinal disorders,1,No,No,137
+70,Peripheral sensory neuropathy,Nervous system disorders,1,No,No,137
+71,Lymphocyte count decreased,Investigations,3,No,No,137
+72,Hyponatremia,Metabolism and nutrition disorders,1,No,No,137
+73,Hyponatremia,Metabolism and nutrition disorders,1,No,No,137
+74,Diarrhea,Gastrointestinal disorders,2,No,No,137
+75,Hypocalcemia,Metabolism and nutrition disorders,1,No,No,137
+76,Memory impairment,Nervous system disorders,1,No,No,137
+77,Syncope,Nervous system disorders,3,Yes,Yes,137
+78,Hyperglycemia,Metabolism and nutrition disorders,1,No,No,137
+79,Headache,Nervous system disorders,1,No,No,137
+80,Hyponatremia,Metabolism and nutrition disorders,1,No,No,137
+81,Anxiety,Psychiatric disorders,1,No,No,137
+82,Insomnia,Psychiatric disorders,1,No,No,137
+83,Generalized muscle weakness,Musculoskeletal and connective tissue disorders,2,No,No,137
+84,Memory impairment,Nervous system disorders,2,No,No,137
+85,Headache,Nervous system disorders,3,No,No,137
+86,Hypernatremia,Metabolism and nutrition disorders,1,No,No,137
+87,Hypokalemia,Metabolism and nutrition disorders,1,No,No,137
+88,Blurred vision,Eye disorders,2,No,No,137
+89,Lymphocyte count decreased,Investigations,2,No,No,137
+90,Cough,"Respiratory, thoracic and mediastinal disorders",1,No,No,137
+91,Hyponatremia,Metabolism and nutrition disorders,1,No,No,137
+92,"Musculoskeletal and connective tissue disorder -  Other, specify",Musculoskeletal and connective tissue disorders,1,No,No,137
+93,Nasal congestion,"Respiratory, thoracic and mediastinal disorders",2,No,No,137
+94,Nervous system disorders,Nervous system disorders,1,No,No,137
+95,"Musculoskeletal and connective tissue disorder -  Other, specify",Musculoskeletal and connective tissue disorders,1,No,No,137
+96,Gastroesophageal reflux disease,Gastrointestinal disorders,1,No,No,137
+97,Anemia,Blood and lymphatic system disorders,2,No,No,137
+98,Hypocalcemia,Metabolism and nutrition disorders,1,No,No,137
+99,Hyperglycemia,Metabolism and nutrition disorders,1,No,No,137
+100,Headache,Nervous system disorders,2,No,No,137
+101,Vomiting,Gastrointestinal disorders,1,No,No,137
+102,Mucosal infection,Infections and infestations,2,No,No,137
+103,Platelet count decreased,Investigations,2,No,No,137
+104,Fall,"Injury, poisoning and procedural complications",1,No,No,137
+105,Hypokalemia,Metabolism and nutrition disorders,1,No,No,137
+106,Vomiting,Gastrointestinal disorders,1,Yes,No,137
+107,Hypoalbuminemia,Metabolism and nutrition disorders,1,No,No,137
+108,Neutrophil count decreased,Investigations,2,No,No,137
+109,Vomiting,Gastrointestinal disorders,1,No,No,137
+110,Facial muscle weakness,Nervous system disorders,1,No,No,137
+111,Peripheral sensory neuropathy,Nervous system disorders,1,No,No,137
+111,Anemia,Blood and lymphatic system disorders,2,No,No,137
+111,White blood cell decreased,Investigations,2,No,No,137
+111,Hypoalbuminemia,Metabolism and nutrition disorders,1,No,No,137
+112,Blurred vision,Eye disorders,2,No,No,137
+112,Hypocalcemia,Metabolism and nutrition disorders,1,No,No,137
+112,Anemia,Blood and lymphatic system disorders,2,Yes,No,137
+112,Blood antidiuretic hormone abnormal,Investigations,2,No,No,137
+112,Urinary frequency,Renal and urinary disorders,1,No,No,137
+113,Endocrine disorders,Endocrine disorders,1,No,No,137
+114,Diarrhea,Gastrointestinal disorders,1,Yes,No,137
+115,Gastrointestinal disorders,Gastrointestinal disorders,1,No,No,137
+116,Neutrophil count decreased,Investigations,2,No,No,137
+116,Fatigue,General disorders and administration site conditions,1,Yes,No,137
+116,Nausea,Gastrointestinal disorders,1,Yes,No,137
+116,Joint range of motion decreased,Musculoskeletal and connective tissue disorders,3,No,No,137
+117,Presyncope,Nervous system disorders,2,No,Yes,137
+117,Hypocalcemia,Metabolism and nutrition disorders,1,No,No,137
+118,Hypokalemia,Metabolism and nutrition disorders,1,No,No,137
+118,Hypocalcemia,Metabolism and nutrition disorders,1,No,No,137
+119,Hypoalbuminemia,Metabolism and nutrition disorders,1,No,No,137
+119,Headache,Nervous system disorders,1,Yes,No,137
+119,White blood cell decreased,Investigations,2,No,No,137
+120,Anemia,Blood and lymphatic system disorders,1,No,No,137
+120,Lethargy,Nervous system disorders,2,No,No,137
+121,Vertigo,Ear and labyrinth disorders,2,No,No,137
+121,Cough,"Respiratory, thoracic and mediastinal disorders",1,Yes,No,137
+121,Lymphocyte count decreased,Investigations,3,No,No,137
+121,Generalized muscle weakness,Musculoskeletal and connective tissue disorders,1,No,No,137
+121,Lymphocyte count decreased,Investigations,2,No,No,137
+122,Lung infection,Infections and infestations,2,No,No,137
+122,Lymphocyte count decreased,Investigations,1,No,No,137
+122,Hyperglycemia,Metabolism and nutrition disorders,1,No,No,137
+122,Gait disturbance,General disorders and administration site conditions,2,No,Yes,137
+123,Headache,Nervous system disorders,1,No,No,137
+123,Anemia,Blood and lymphatic system disorders,2,No,No,137
+123,Nervous system disorders,Nervous system disorders,1,No,No,137
+123,Hypokalemia,Metabolism and nutrition disorders,1,No,No,137
+123,Diarrhea,Gastrointestinal disorders,1,No,No,137
+123,Nausea,Gastrointestinal disorders,1,No,No,137
+123,Lymphocyte count decreased,Investigations,1,No,No,137
+123,Hyperglycemia,Metabolism and nutrition disorders,2,No,No,137
+124,Eye disorders,Eye disorders,1,No,No,137
+125,Gastroesophageal reflux disease,Gastrointestinal disorders,1,No,No,137
+126,Vomiting,Gastrointestinal disorders,2,Yes,Yes,137
+127,Chills,General disorders and administration site conditions,1,Yes,No,137
+128,Hypoalbuminemia,Metabolism and nutrition disorders,2,No,No,137
+129,White blood cell decreased,Investigations,1,No,No,137
+130,Fall,"Injury, poisoning and procedural complications",1,No,No,137
+131,Fatigue,General disorders and administration site conditions,2,No,No,137
+131,Lymphocyte count decreased,Investigations,1,No,No,137
+131,Hoarseness,"Respiratory, thoracic and mediastinal disorders",2,No,No,137
+131,Rash maculo-papular,Skin and subcutaneous tissue disorders,1,No,No,137
+131,Activated partial thromboplastin time prolonged,Investigations,1,No,No,137
+132,Platelet count decreased,Investigations,1,No,No,137
+132,Nausea,Gastrointestinal disorders,2,No,No,137
+132,General disorders and administration site conditions,General disorders and administration site conditions,3,No,Yes,137
+132,Nervous system disorders,Nervous system disorders,2,No,No,137
+132,Anemia,Blood and lymphatic system disorders,2,No,No,137
+132,Dehydration,Metabolism and nutrition disorders,2,No,No,137
+133,Hypocalcemia,Metabolism and nutrition disorders,1,No,No,137
+133,Nervous system disorders,Nervous system disorders,2,Yes,Yes,137
+133,Lymphocyte count decreased,Investigations,1,No,No,137
+133,Fall,"Injury, poisoning and procedural complications",1,No,No,137
+133,Hyperglycemia,Metabolism and nutrition disorders,2,No,No,137
+133,Hypocalcemia,Metabolism and nutrition disorders,1,No,No,137
+133,Gait disturbance,General disorders and administration site conditions,1,No,No,137
+133,Nausea,Gastrointestinal disorders,4,Yes,No,137
+134,Weight loss,Investigations,2,No,No,137
+135,Abdominal pain,Gastrointestinal disorders,1,No,No,137
+135,Anemia,Blood and lymphatic system disorders,1,No,No,137
+135,Lymphocyte count decreased,Investigations,3,No,No,137
+135,Vomiting,Gastrointestinal disorders,1,No,No,137
+135,Hyponatremia,Metabolism and nutrition disorders,3,No,No,137
+135,Anorexia,Metabolism and nutrition disorders,2,No,No,137
+135,Back pain,Musculoskeletal and connective tissue disorders,1,No,No,137
+135,Neutrophil count decreased,Investigations,2,No,No,137
+136,Upper respiratory infection,Infections and infestations,2,Yes,No,137
+137,Urinary frequency,Renal and urinary disorders,1,No,No,137
