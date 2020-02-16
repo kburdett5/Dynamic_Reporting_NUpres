@@ -1,0 +1,418 @@
+---
+title: "Example Report: KEY"
+author: "Kirsten Bell Burdett"
+institute: "Northwestern University: Feinberg School of Medicine"
+date: "`r format(Sys.Date(),'%d %b %Y')`"
+geometry: margin=2cm
+output:
+  pdf_document:
+    toc: yes
+    toc_depth: 2
+header-includes: \usepackage{float, graphicx, amsmath, amssymb, tikz, caption}
+  \usetikzlibrary{shapes,arrows,positioning,backgrounds}
+---
+
+
+
+```{r setup, include=FALSE, echo=FALSE}
+library(knitr)
+knitr::opts_chunk$set(tidy.opts=list(width.cutoff=80),tidy=TRUE,
+                      fig.path='figure/beamer-',
+                        fig.align='center',
+                        fig.show='hold',
+                        size='tiny',
+                        fig.width=7,
+                        fig.height=5,
+                        out.width='.9\\linewidth')
+
+stdt <- date()
+```
+
+
+```{r echo=FALSE}
+#============  Functions!!!  =============#
+
+#=======get median and CI for survival outcomes  =========#
+survmedCI <- function(dat, SurvOut, roundval){
+  res <- surv_median(dat)
+  medval <- round(res$median, roundval)
+  CIval <- paste0("(",round(res$lower,roundval), " , ", round(res$upper,roundval), ")")
+  MedianCI <- paste0(medval, " ", CIval)
+  
+  finalout <- tibble(SurvOut,MedianCI)  #make name so that you can distiguish multiple survival outcomes
+  
+  return(finalout = finalout)
+}
+
+
+#========== KM plot with dotted line at median and text for median ============#
+kmplotfun <- function(dat, fitres, xlabel, titleval){
+  gout <- ggsurvplot(fitres, data = dat, risk.table = "nrisk_cumevents", surv.median.line = "v",xlab = xlabel, ylab = "Probability", title = titleval) 
+  
+  gout$plot <- gout$plot+ 
+                ggplot2::annotate("text", 
+                                  x = .7*fitres$time[length(fitres$time)], y = 0.8, # x and y coordinates of the text
+                                  label = paste0("Median = ",round(surv_median(fitres)$median,3), " Units") , size = 4)
+  return(gout=gout)
+}
+
+
+
+#======= summary AEs listing by grade =========#
+listeventsfun <- function(dat){
+  limitvars <- dat %>% dplyr::select(subjid, Grade, Event, total_subj) 
+
+  bygrade <- limitvars %>%
+    group_by(Event, Grade, subjid) %>%
+    dplyr::summarise(n()) %>%
+    group_by(Event, Grade) %>%
+    dplyr::summarise(n = n()) %>%
+    dplyr::rename(`No.` = n) %>%
+    ungroup()
+  
+  widedat <- spread(bygrade, Grade, `No.`)
+  for (i in 2:dim(widedat)[2]){
+    first <- widedat[i]
+    widedat[i] <- replace(first, is.na(first), 0)
+    names(widedat)[i] <- paste0("Grade ", names(widedat)[i])  }
+  
+  return(widedat = widedat)
+}
+
+
+#function to get column totals
+makepretty <- function(dat, eventflag){
+  datin <- dat[dat[,eventflag] =="Yes",]
+  out1 <- listeventsfun(datin)
+  
+  newtest <- c(NA, colSums(out1[,2:dim(out1)[2]]))  #get col totals
+
+  finalouta <- out1 %>% mutate_if(is.numeric, function(x) paste0(x, " (", round((x/unique(dat$total_subj)) * 100,2), "%)") )
+  finalout <- rbind(newtest, finalouta)
+  
+  finalout[1,1] <- ""   #remove the NA place holder 
+  
+  for (i in 2:dim(finalout)[2]){
+    first <- finalout[i]
+    finalout[i] <- replace(first, first == "0 (0%)", "0")
+  }
+  return(finalout = finalout)
+}
+```
+
+<!------------------------------------------------------------> 
+<!------------------   Load Libraries  ----------------------->
+<!------------------------------------------------------------>
+
+```{r libraries, warning=FALSE, message=FALSE, echo=FALSE}
+#Load libraries necessary for anlaysis. Set location of the data and output
+library(survival)       # survival and veteran data
+library(survminer)      # ggsurvplot      
+library(tidyverse)
+library(kableExtra)     # pretty kable output
+library(tableone)       # CreateTableOne function
+
+dir <- paste0(getwd(),"/Data/")         # path for data
+outdir <- paste0(getwd(),"/Results/")   # path for exporting results (TLFs)
+```
+
+
+\vspace{15mm}
+
+Data:
+```{r message = FALSE}
+readfile <- file.path(dir, "FakeExampleAEs.csv")
+fakeAEdat <- read_csv(readfile)
+tools::md5sum(readfile)
+```
+\vspace{1mm}
+`r gsub(".*Data/","",readfile)` \
+\vspace{1mm}
+`r tools::md5sum(readfile)`
+
+
+
+Veteran Data: \
+```{r echo=FALSE}
+#str(veteran)     #Lung Cancer Study
+
+veteran2 <- veteran %>%
+  dplyr::rename("Treatment" = trt, "Cell Type" = celltype, "Karnofsky Performance Score" = karno,
+                "Age in Years"=age, "Prior Therapy" = prior) %>%
+  dplyr::mutate(`Prior Therapy` = ifelse(`Prior Therapy` == 0, "No",
+                                         ifelse(`Prior Therapy` == 10, "Yes", `Prior Therapy`)))
+
+
+#=== we will only use the subjects with test trt and with cell type: squamous, smallcell, adeno
+
+trt2only <- veteran2 %>% dplyr::filter(Treatment == 2)
+#dim(veteran); dim(trt2only)
+
+analysisdat <- trt2only %>% dplyr::filter(`Cell Type` %in% c("squamous", "smallcell", "adeno"))
+#dim(analysisdat)
+```
+We will be using the veteran data from the survival package. The original data has `r nrow(veteran)` subjects, but we will be subsetting to only those subjects that have test treatment and cell type of squamous, smallcell, or adeno which will result in `r nrow(analysisdat)` subjects.
+\vspace{10mm}
+
+
+
+
+* * *
+
+
+
+\pagebreak
+
+<!------------------------------------------------------------> 
+<!------------   Statistical Analysis Plan  ------------------>
+<!------------------------------------------------------------>
+
+<!--------  Section "Background"  --------------->
+# Background
+\underline{Protocol Title Here.} This is a great place to have background information about the study as well as include your **statistical analysis plan (SAP)**.
+
+<!--------  Subsection "Objectives"  ------------>
+##Objectives
+\vspace{3mm}
+
+\underline{Primary Objective:}
+\begin{itemize}
+	\item Define Here
+\end{itemize}
+
+\vspace{3mm}
+
+\underline{Secondary Objective:}
+\begin{itemize}
+	\item Define Here
+\end{itemize}
+
+
+\vspace{20mm}
+
+
+<!------------------------------------------------------------> 
+<!-------------     CONSORT Flow Diagram    ------------------>
+<!------------------------------------------------------------>
+## CONSORT Flow Diagram
+
+\vspace{5mm}
+
+\tikzset{
+  block_full/.style ={rectangle, draw=black, thick, fill=white,
+    text width=20em,text centered, minimum height=4em, inner sep=6pt},
+  block_noborder/.style ={rectangle, draw=none, thick, fill=none,
+    text width=15em, text ragged, minimum height=1em, inner sep=6pt},
+  block_arm/.style ={rectangle, draw=black, thick, fill=yellow,
+  	text width=10em,text centered, minimum height=4em, inner sep=6pt},
+  line/.style ={draw, very thin, -latex', shorten >=0pt}
+  }
+    
+\sffamily
+{\centering 
+\begin{tikzpicture}[scale=0.8, every node/.style={scale=0.9}]   
+  \node [block_full] (start) {
+    \textbf{Overall Population}  \\
+    \hspace{5pt} Total Patients (n= `r nrow(veteran2)`)}; 
+    
+    
+  \node [block_full, below=of start] (testpop) {
+    \textbf{Test Treatment Population:} \\
+    Total Patients (n= `r nrow(trt2only)`) };
+    
+  \node [block_noborder, left=of testpop] (lefttest) {
+    Excluded (n= `r nrow(veteran2) - nrow(trt2only)`): \\
+    \hspace{5pt} Exclude Standard Treatment}; 
+    
+  \node [block_full, below=of testpop] (finalpop) {
+    \textbf{Population of Interest:} \\
+    Cell Type: Squamous, Small Cell, Adeno \\
+    Total Patients (n=`r nrow(analysisdat)`)};
+  
+  \node [block_noborder, left=of finalpop] (excluded_large) {
+    Excluded (n= `r nrow(trt2only)- nrow(analysisdat)`): \\
+    \hspace{5pt} Excluded Cell Type: Large}; 
+    
+  \node [block_full, below=of finalpop] (finalbox) {
+    \textbf{Final Box}};
+    
+  \node [block_arm, below=of finalbox, xshift = -2.5cm] (arma) {Arm A};
+  
+  \node [block_arm, right=of arma] (armb) {Arm B};
+
+    
+    % % Arrows % %
+  \draw[->, line width=0.5pt] (start) -- (testpop);
+  \draw[->, line width=0.5pt] (testpop) -- (finalpop);
+  \draw[->, line width=0.5pt] (testpop) -- (lefttest);
+  \draw[->, line width=0.5pt] (finalpop) -- (excluded_large);
+  \draw[->, line width=0.5pt] (finalpop) -- (finalbox);
+  \draw[->, line width=0.5pt] (finalbox) -- (arma);
+  \draw[->, line width=0.5pt] (finalbox) -- (armb);
+    
+\end{tikzpicture}
+}
+
+
+\pagebreak
+
+
+<!------------------------------------------------------------> 
+<!---------------   Demographics with tableone --------------->
+<!------------------------------------------------------------>
+#Baseline Patient Demographic and Clinical Characteristics
+```{r echo=FALSE, include = FALSE}
+testtab <- print(CreateTableOne(vars = c("Cell Type", "Karnofsky Performance Score", "Age in Years", "Prior Therapy"), 
+                                data = analysisdat, factorVars= c("Cell Type","Prior Therapy")), showAllLevels = TRUE)
+```
+
+
+<!----------------------------------------------------------------> 
+<!-----------------   kable() and kableExtra()   ----------------->
+<!-- #longtable=TRUE: include in case table spans multiple pages ->
+<!-- #booktabs=TRUE: removes lines between each col and row      ->
+<!-- #striped: rows alternate colors                             ->
+<!-- #HOLD_position: hold position of table                      ->
+<!-- #repeat_header: repeats header if table goes to next page   ->
+<!---------------------------------------------------------------->
+
+```{r results='asis'}
+kable(testtab, longtable = TRUE, booktabs = TRUE, caption = "Demographics for Population of Interest") %>%
+  kable_styling(latex_options = c("striped","HOLD_position", "repeat_header")) %>%
+  footnote(general = "Footnote Here.", general_title = "")
+```
+
+```{r echo=FALSE}
+write.csv(testtab, file.path(outdir, paste0("Demo_interest_veterans.csv" )))
+```
+
+
+\pagebreak
+
+#Primary Objective
+\underline{Primary Objective:} Define HERE
+
+
+##Adverse Events
+
+<!------------------------------------------------------------> 
+<!---------------   Table with kableExtra   ------------------>
+<!-- #row_spec(1, bold = TRUE ): makes the first row bold   -->
+<!-- #column_spec(1, width = "15em"): change column 1 width -->
+<!-- #threeparttable = T: for long footnotes                -->
+<!------------------------------------------------------------>
+
+```{r results='asis', message = FALSE}
+kable(makepretty(fakeAEdat, "anyRAE"), longtable = TRUE, booktabs = TRUE, caption = "All Related Adverse Events by Grade: for each subject that had at least one event in the overall population.") %>%
+  kable_styling(latex_options = c("striped", "repeat_header")) %>%
+  row_spec(1, bold = TRUE ) %>%
+  column_spec(1, width = "15em") %>%
+  footnote(general = "Frequencies use the total number of subjects in the overall population as the denominator. The first row indicates event totals.", general_title = "", threeparttable = T)
+```
+
+
+
+\vspace{15mm}
+
+##Survival Outcomes
+```{r echo=FALSE}
+#=========== Overall Population (veteran2)  ============#
+allfit <- survfit(Surv(time, status) ~ 1, data = veteran2, type = "kaplan-meier")
+allvals <- survmedCI(allfit, "OS - Overall Population", 3)
+v1 <- kmplotfun(veteran2, allfit, "Overall Survival Time", "Overall Population")
+
+# 6 and 12 unit survival probability
+ALL6 <- summary(allfit,time = 6)
+ALL12 <- summary(allfit,time = 12)
+
+
+
+#========== Population of interest (analysisdat) =======#
+vetfit <- survfit(Surv(time, status) ~ 1, data = analysisdat, type = "kaplan-meier")
+vetvals <- survmedCI(vetfit, "OS - Population of Interest", 3)
+v2 <- kmplotfun(analysisdat, vetfit, "Overall Survival Time", "Population of Interest")
+
+# 6 and 12 unit survival probability
+interest6 <- summary(vetfit,time = 6)
+interest12 <- summary(vetfit,time = 12)
+
+
+#=======   SHOW the Survival Outcome median(CI) =========#
+showsurvout <- rbind(allvals, vetvals) 
+showsurvout <- as_tibble(showsurvout) %>%
+  dplyr::rename(`Population` = SurvOut, `Median (CI)` = MedianCI)
+```
+
+For population of interest (n=`r nrow(analysisdat)`) the 6 and 12 unit OS probability for the overall population was `r round(ALL6$surv,3)` and `r round(ALL12$surv,3)` respectively.  6 and 12 unit OS probability for the population of interest was `r round(interest6$surv,3)` and `r round(interest12$surv,3)` respectively.
+```{r echo=FALSE, results='asis'}
+kable(showsurvout, booktabs = TRUE) %>%
+  kable_styling(latex_options = "striped")
+```
+
+
+<!------------------------------------------------------------> 
+<!------------------   Kaplan-Meier Plots   ------------------>
+<!------------------------------------------------------------>
+```{r}
+#Plot KM plots
+allplots <- arrange_ggsurvplots(list(v1,v2), nrow=1, ncol=2, print=FALSE)
+ggsave(paste0(outdir,"survplots.pdf"),allplots, width = 15, height = 8)
+```
+
+\vspace{5mm}
+
+![Kaplan-Meier plots for overall survival.](Results/survplots.pdf)
+
+
+
+\pagebreak
+
+
+
+#Secondary Objective
+\underline{Secondary Objective:} Define HERE
+
+
+
+\pagebreak
+
+
+<!------------------------------------------------------------> 
+<!---------   Supplementary: Equation Example  --------------->
+<!------------------------------------------------------------>
+#Supplementary
+
+####Survival Analysis Equation Example:
+
+The Kaplan-Meier method is a non-parametric procedure which is sensitive to the choice of time interval and assumes that events of individuals are independent. We will denote the jth event time as $t_{(j)}$. The number at risk before $t_{(j)}$ is denoted as $n_{j}$ where $n_{j+1} = n_{j} - d_{j} - c_{j}$ where $c_{j}$ is the number of censored observations. The number of events at $t_{(j)}$ is denoted by $d_{j}$. The estimated survival function given below can be interpreted as the probability of survival through the interval $t_{(k)} \le t < t_{(k+1)}$ where k = 1,2...r where r is the event time.
+	
+\begin{align*}
+\hat{S}(t) &= \prod^{k}_{j=1}\frac{n_{j} - d_{j}}{n_{j}}, && t_{(k)} \le t < t_{(k+1)}
+\end{align*}
+	
+	
+	The hazard is then estimated by taking the ratio of $d_{j}$ compared to $n_{j}\tau_{(j)}$ where $\tau_{(j)}$ is the length of the jth time interval ($t_{(j+1)} - t_{(j)}$). 
+	
+\begin{align*}
+\hat{h}(t) &= \frac{d_{j}}{n_{j}\tau_{j}} , &&t_{(j)} \le t < t_{(j+1)}
+\end{align*}
+
+
+
+\pagebreak
+
+<!------------------------------------------------------------> 
+<!----------------   Session Information   ------------------->
+<!------------------------------------------------------------>
+Session Information
+```{r echo=FALSE,results='asis'}
+toLatex(sessionInfo(), locale=FALSE)
+```
+```{r echo=FALSE}
+print(paste("Start Time",stdt))
+print(paste("End Time  ",date()))
+```
+
+
+
+
